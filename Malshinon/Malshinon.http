@@ -1,0 +1,6 @@
+@Malshinon_HostAddress = http://localhost:5177
+
+GET {{Malshinon_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
