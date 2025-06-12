@@ -28,11 +28,22 @@ namespace Malshinon.Controllers
 
 
         //------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------
+        [HttpPost("AllPeople")]
+        public async Task<ApiResponse<List<People>>> AllPeople([FromBody] RequestDTO dto)
+        {
+            Log.request("AllPeople");
+            return await _service.GetAllPeople(dto);
+        }
+
+
+        //------------------------------------------------------------------------------------------------
         [HttpPost("AllReports")]
-        public async Task<ApiResponse<List<People>>> AllReports([FromBody] RequestDTO dto)
+        public async Task<ApiResponse<List<IntelReport>>> AllReports([FromBody] RequestDTO dto)
         {
             Log.request("AllReports");
-            return await _service.GetAll(dto);
+
+            return await _service.GetAllReports(dto);
         }
         //------------------------------------------------------------------------------------------------
 
@@ -52,6 +63,15 @@ namespace Malshinon.Controllers
             Log.request("Dangerous");
 
             return await _service.GetDangerous(dto);
+        }
+        //------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------
+        [HttpPost("PotentialAgents")]
+        public async Task<ApiResponse<List<People>>> PotentialAgents([FromBody] RequestDTO dto)
+        {
+            Log.request("PotentialAgents");
+
+            return await _service.GetPotentialAgents(dto);
         }
         //------------------------------------------------------------------------------------------------
 
