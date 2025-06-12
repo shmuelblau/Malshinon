@@ -162,21 +162,39 @@ namespace Malshinon
 
 
 
-        public async Task<ApiResponse<List<People>>> GetAll( RequestDTO dto)
-        
+        public async Task<ApiResponse<List<People>>> GetAllPeople(RequestDTO dto)
+
         {
-            People? people = await GetPepole(dto.FirstName! , dto.LastName! , dto.SecretCode);
-            
+            People? people = await GetPepole(dto.FirstName!, dto.LastName!, dto.SecretCode);
+
             if (people != null && people.Type == "reporter")
             {
                 List<People> result = await _context.People.ToListAsync();
 
-                return  ApiResponse<List<People>>.Ok(result);
+                return ApiResponse<List<People>>.Ok(result);
             }
 
             return ApiResponse<List<People>>.Fail(" לא ניתן לגשת ללא פרטי סוכן נכונים");
 
         }
+
+        //-------------------------------------------------------------------------------------
+        public async Task<ApiResponse<List<IntelReport>>> GetAllReports(RequestDTO dto)
+
+        {
+            People? people = await GetPepole(dto.FirstName!, dto.LastName!, dto.SecretCode);
+
+            if (people != null && people.Type == "reporter")
+            {
+                List<IntelReport> result = await _context.IntelReport.ToListAsync();
+
+                return ApiResponse<List<IntelReport>>.Ok(result);
+            }
+
+            return ApiResponse<List<IntelReport>>.Fail(" לא ניתן לגשת ללא פרטי סוכן נכונים");
+
+        }
+        //----------------------------------------------------------------------------------------
 
 
         public async Task<ApiResponse<List<People>>> GetDangerous(RequestDTO dto)
@@ -213,6 +231,25 @@ namespace Malshinon
 
             return ApiResponse<List<People>>.Fail(" לא ניתן לגשת ללא פרטי סוכן נכונים");
         }
+        //-------------------------------------------------------------------------------------------------
 
+        public async Task<ApiResponse<List<People>>> GetPotentialAgents(RequestDTO dto)
+
+        {
+            People? people = await GetPepole(dto.FirstName!, dto.LastName!, dto.SecretCode);
+
+            if (people != null && people.Type == "reporter")
+            {
+
+                List<People> result = await _context.People.Where(p => p.NumReports >= 10).ToListAsync();
+               
+
+                return ApiResponse<List<People>>.Ok(result);
+            }
+
+            return ApiResponse<List<People>>.Fail(" לא ניתן לגשת ללא פרטי סוכן נכונים");
+
+        }
+        //----------------------------------------------------------------------------------------
     }
 }
