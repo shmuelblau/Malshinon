@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Malshinon.classes;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ namespace Malshinon
                 reporter.NumReports += 1;
                 target.NumMentions += 1;
                 await _context.SaveChangesAsync();
+
+                Log.AddReport(intelReport);
+
                 return ApiResponse<string>.Ok("דוח נוסף בהצלחה");
             }
             catch
@@ -136,6 +140,8 @@ namespace Malshinon
             _context.People.Add(people);
             _context.SaveChanges();
 
+            Log.AddPeople(people);
+
         }
         //---------------------------------------------------------------------------------------
         public async Task<int> GetId(string first, string last)
@@ -188,7 +194,7 @@ namespace Malshinon
                     .Where(g =>
                     {
                         var list = g.OrderBy(r => r.Timestamp).ToList();
-                        for (int i = 0; i < (list.Count -1); i++)
+                        for (int i = 0; i < (list.Count -2); i++)
                         {
                             TimeSpan span = list[i + 2].Timestamp - list[i].Timestamp;
                             if (span.TotalMinutes <= 30)
