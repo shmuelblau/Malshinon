@@ -28,7 +28,6 @@ namespace Malshinon.Controllers
 
 
         //------------------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------------------
         [HttpPost("AllPeople")]
         public async Task<ApiResponse<List<People>>> AllPeople([FromBody] RequestDTO dto)
         {
@@ -64,7 +63,7 @@ namespace Malshinon.Controllers
 
             return await _service.GetDangerous(dto);
         }
-        //------------------------------------------------------------------------------------------------
+     
         //-----------------------------------------------------------------------------------------------------
         [HttpPost("PotentialAgents")]
         public async Task<ApiResponse<List<People>>> PotentialAgents([FromBody] RequestDTO dto)

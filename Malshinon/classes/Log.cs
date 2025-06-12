@@ -14,7 +14,7 @@
 
         {
 
-            string str = $"{DateTime.Now}  Add new People fname = {p.FirstName}  lname {p.LastName}";
+            string str = $"{DateTime.Now}  Add new People fname = {p.FirstName}  lname = {p.LastName}";
             write(str);
 
         }
