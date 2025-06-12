@@ -2,13 +2,8 @@
 
 namespace Malshinon
 {
-    public enum PersonType
-    {
-        Reporter,
-        Target,
-        Both,
-        PotentialAgent
-    }
+    
+
 
     [Table("People")]
     public class People
@@ -26,7 +21,7 @@ namespace Malshinon
         public string SecretCode { get; set; } = null!;
 
         [Column("type")]
-        public PersonType Type { get; set; }
+        public string? Type { get; set; }
 
         [Column("num_reports")]
         public int NumReports { get; set; } = 0;

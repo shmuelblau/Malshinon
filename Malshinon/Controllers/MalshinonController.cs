@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Malshinon.classes;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using System;
 
 namespace Malshinon.Controllers
@@ -8,23 +10,66 @@ namespace Malshinon.Controllers
     [Route("[controller]")]
     public class MalshinonController : ControllerBase
     {
-        
+
 
         private readonly ILogger<MalshinonController> _logger;
 
         private readonly MalshinonDbContext _context;
 
+        private readonly MalshinonService _service;
 
-        public MalshinonController(ILogger<MalshinonController> logger , MalshinonDbContext context)
+
+        public MalshinonController(ILogger<MalshinonController> logger, MalshinonDbContext context)
         {
             _context = context;
             _logger = logger;
+            _service = new MalshinonService(_context);
         }
 
-        [HttpGet(Name = "GetMalshinon")]
-        public string Get()
+
+        //------------------------------------------------------------------------------------------------
+        [HttpPost("AllReports")]
+        public async Task<ApiResponse<List<People>>> AllReports([FromBody] RequestDTO dto)
         {
-            return string.Join(", ", _context.People.Select(p => p.FirstName));
+
+            return await _service.GetAll(dto);
         }
+        //------------------------------------------------------------------------------------------------
+
+
+        [HttpPost("AddReport")]
+        public async Task<ApiResponse<string>> AddReport([FromBody] RequestDTO dto)
+        {
+
+            return await _service.AddReport(dto);
+        }
+
+
+        [HttpPost("Dangerous")]
+        public async Task<ApiResponse<List<People>>> Dangerous([FromBody] RequestDTO dto)
+        {
+
+            return await _service.GetDangerous(dto);
+        }
+        //------------------------------------------------------------------------------------------------
+
+
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            Console.WriteLine(">>> ping called");
+            return Ok("pong");
+        }
+
+
+
+
     }
 }
+
+
+
+
+
+
+

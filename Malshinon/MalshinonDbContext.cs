@@ -10,6 +10,10 @@ namespace Malshinon
 
         
         public DbSet<People> People { get; set; }
-        public DbSet<IntelReport> intelReport { get; set; }
+        public DbSet<IntelReport> IntelReport { get; set; }
+
+
+       
+
     }
 }
